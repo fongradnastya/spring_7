@@ -45,7 +45,6 @@ public class RestApplication {
         System.out.println("Response Code: " + response.getStatusCode());
         System.out.println("Response headers:");
         System.out.println(response.getHeaders());
-        System.out.println("Response Code: " + response.getStatusCode());
         // Get the array of Clothes objects from the response
         Clothes[] clothesArray = response.getBody();
         System.out.println("Response body:");
