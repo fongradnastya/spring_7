@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.messaging.MessageListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Класс, запускающий работу программы
@@ -13,6 +15,8 @@ public class Application {
      * @param args аргументы командной строки
      */
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        MessageListener messageReceiver = context.getBean(MessageListener.class);
+        messageReceiver.startReceivingMessages();
     }
 }

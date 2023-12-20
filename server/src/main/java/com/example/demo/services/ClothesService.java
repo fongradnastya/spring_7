@@ -93,4 +93,19 @@ public class ClothesService {
         return repository.findByNameContains(name);
     }
 
+    @Transactional
+    public void buy(int id) throws IllegalArgumentException {
+        Clothes clothes = repository.findById(id).orElse(null);
+        if(clothes != null){
+            if(clothes.getQuantity() > 0){
+                clothes.setQuantity(clothes.getQuantity() - 1);
+            }
+            else{
+                throw new IllegalArgumentException("No clothes to buy");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("This clothes item does not exist");
+        }
+    }
 }

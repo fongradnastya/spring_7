@@ -33,6 +33,7 @@ public class ClothesController {
 
     /**
      * Конструктор для внедрения сервиса по работе с одеждой
+     *
      * @param clothesService Сервис для работы с одеждой
      */
     @Autowired
@@ -43,6 +44,7 @@ public class ClothesController {
 
     /**
      * Показывает список всех предметов одежды
+     *
      * @param name  Параметр для фильтрации предметов одежды
      * @param model Модель для передачи данных в представление
      * @return Имя представления для отображения
@@ -60,6 +62,7 @@ public class ClothesController {
 
     /**
      * Показывает детали о предмете одежды по его идентификатору
+     *
      * @param id    Идентификатор предмета одежды
      * @param model Модель для передачи данных в представление
      * @return Имя представления для отображения
@@ -80,6 +83,7 @@ public class ClothesController {
 
     /**
      * Форма для редактирования предмета одежды
+     *
      * @param id    Идентификатор предмета для редактирования
      * @param model Модель для передачи данных в представление
      * @return Имя представления для отображения
@@ -99,6 +103,7 @@ public class ClothesController {
 
     /**
      * Форма для создания новойго предмета одежды
+     *
      * @param model Модель для передачи данных в представление
      * @return Имя представления для отображения
      */
@@ -108,9 +113,11 @@ public class ClothesController {
         model.addAttribute("clothes", new Clothes());
         return "new";
     }
+
     /**
      * Создает новую запись о предмете одежды
-     * @param clothes         Создаваемый предмет одежды
+     *
+     * @param clothes            Создаваемый предмет одежды
      * @param bindingResult      Результат привязки для обработки ошибок
      * @param model              Модель для передачи данных в представление
      * @param redirectAttributes Атрибуты для передачи данных при перенаправлении
@@ -118,19 +125,22 @@ public class ClothesController {
      */
     @PostMapping
     public String createClothes(@ModelAttribute("clothes") @Valid Clothes clothes,
-                                  BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+                                BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("currentPage", "new");
+            messageProducer.sendMessage("Ann error with creating a new clothes item");
             return "new";
         }
         clothesService.save(clothes);
         redirectAttributes.addFlashAttribute("message", "Clothes successfully added.");
+        messageProducer.sendMessage("Added an object: " + clothes);
         return "redirect:/";
     }
 
     /**
      * Обновляет существующую запись предмета одежды
-     * @param clothes     Предмет одежды для обновления
+     *
+     * @param clothes       Предмет одежды для обновления
      * @param bindingResult Результат привязки для обработки ошибок
      * @param id            Идентификатор предмета для обновления
      * @param model         Модель для передачи данных в представление
@@ -138,21 +148,24 @@ public class ClothesController {
      */
     @PutMapping("/{id}")
     public String updateClothes(@ModelAttribute("clothes") @Valid Clothes clothes,
-                                  BindingResult bindingResult, @PathVariable("id") int id, Model model) {
+                                BindingResult bindingResult, @PathVariable("id") int id, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("currentPage", "edit");
             return "edit";
         }
         if (clothesService.doesNotExist(id)) {
             logger.error("Attempted to update non-existing clothes with id {}", id);
+            messageProducer.sendMessage("Error when editing an object with id: " + id);
             return "error";
         }
         clothesService.update(id, clothes);
+        messageProducer.sendMessage("Updated an object: " + clothes);
         return "redirect:/";
     }
 
     /**
      * Удаляет запись о предмете одежды
+     *
      * @param id Идентификатор предмета одежды для удаления
      * @return Перенаправление на список предметов одежды
      */
@@ -160,9 +173,29 @@ public class ClothesController {
     public String deleteClothes(@PathVariable("id") int id) {
         if (clothesService.doesNotExist(id)) {
             logger.error("Attempted to delete non-existing clothes with id {}", id);
+            messageProducer.sendMessage("Error when deleting an object with id:  " + id);
             return "error";
         }
+        Clothes clothes = clothesService.findOne(id);
         clothesService.delete(id);
+        messageProducer.sendMessage("Deleted an object: " + clothes);
         return "redirect:/";
+    }
+    @GetMapping("clothes/{id}/buy")
+    public String buy(@PathVariable("id") int id) {
+        Clothes clothes = clothesService.findOne(id);
+        if(clothesService.doesNotExist(id)){
+            messageProducer.sendMessage("There was an error purchasing a product with id: " + id);
+            return "error";
+        }
+        else{
+            try {
+                clothesService.buy(id);
+                messageProducer.sendMessage("The product: " + clothes + " was successfully purchased");
+            } catch (IllegalArgumentException e) {
+                messageProducer.sendMessage("There was an error purchasing a product with id: " + id);
+            }
+            return "redirect:/";
+        }
     }
 }
