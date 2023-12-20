@@ -1,7 +1,6 @@
-com\example\demo\Clothes.class
-com\example\demo\ClothesControl$ClothesRowMapper.class
-com\example\demo\ClothesControl.class
+com\example\demo\services\ClothesService.class
 com\example\demo\Application.class
-com\example\demo\Main.class
-com\example\demo\ClothesService.class
-com\example\demo\DatabaseConfig.class
+com\example\demo\controllers\ClothesController.class
+com\example\demo\models\Clothes.class
+com\example\demo\repository\ClothesRepository.class
+com\example\demo\controllers\RestClothesController.class

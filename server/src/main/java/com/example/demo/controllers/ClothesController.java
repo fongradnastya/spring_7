@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import com.example.demo.messaging.MessageListener;
+import com.example.demo.messaging.MessageProducer;
 import com.example.demo.models.Clothes;
 import com.example.demo.services.ClothesService;
 import jakarta.validation.Valid;
@@ -27,13 +29,16 @@ public class ClothesController {
      */
     private final ClothesService clothesService;
 
+    private final MessageProducer messageProducer;
+
     /**
      * Конструктор для внедрения сервиса по работе с одеждой
      * @param clothesService Сервис для работы с одеждой
      */
     @Autowired
-    public ClothesController(ClothesService clothesService) {
+    public ClothesController(ClothesService clothesService, MessageProducer messageProducer) {
         this.clothesService = clothesService;
+        this.messageProducer = messageProducer;
     }
 
     /**

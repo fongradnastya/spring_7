@@ -1,6 +1,6 @@
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\ClothesService.java
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\ClothesControl.java
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\Application.java
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\DatabaseConfig.java
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\Clothes.java
-C:\Users\fongr\IdeaProjects\demo3\src\main\java\com\example\demo\Main.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\controllers\RestClothesController.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\services\ClothesService.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\controllers\ClothesController.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\repository\ClothesRepository.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\Application.java
+C:\Users\fongr\IdeaProjects\Lab7\server\src\main\java\com\example\demo\models\Clothes.java
