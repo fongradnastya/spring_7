@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.messaging.MessageListener;
 import com.example.demo.messaging.MessageProducer;
 import com.example.demo.models.Clothes;
 import com.example.demo.services.ClothesService;
