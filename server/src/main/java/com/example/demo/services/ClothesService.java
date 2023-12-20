@@ -93,6 +93,11 @@ public class ClothesService {
         return repository.findByNameContains(name);
     }
 
+    /**
+     * Уменьшает количество предметов одежды на 1
+     * @param id идентификатор изменяемого предмета
+     * @throws IllegalArgumentException неверный id предмета одежды
+     */
     @Transactional
     public void buy(int id) throws IllegalArgumentException {
         Clothes clothes = repository.findById(id).orElse(null);

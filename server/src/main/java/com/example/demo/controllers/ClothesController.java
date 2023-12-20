@@ -138,7 +138,6 @@ public class ClothesController {
 
     /**
      * Обновляет существующую запись предмета одежды
-     *
      * @param clothes       Предмет одежды для обновления
      * @param bindingResult Результат привязки для обработки ошибок
      * @param id            Идентификатор предмета для обновления
@@ -164,7 +163,6 @@ public class ClothesController {
 
     /**
      * Удаляет запись о предмете одежды
-     *
      * @param id Идентификатор предмета одежды для удаления
      * @return Перенаправление на список предметов одежды
      */
@@ -180,6 +178,12 @@ public class ClothesController {
         messageProducer.sendMessage("Deleted an object: " + clothes);
         return "redirect:/";
     }
+
+    /**
+     * Реализует покупку предмета одежды
+     * @param id идентификатор покупаемого предмета
+     * @return Перенаправление на список предметов одежды
+     */
     @GetMapping("clothes/{id}/buy")
     public String buy(@PathVariable("id") int id) {
         Clothes clothes = clothesService.findOne(id);

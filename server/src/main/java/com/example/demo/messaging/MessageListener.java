@@ -11,12 +11,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Прослушиватель jms сообщений
+ */
 @Component
 public class MessageListener {
     private final JmsTemplate jmsTemplate;
     private final String queueName;
     private final ScheduledExecutorService scheduler;
 
+    /**
+     * Конструктор слушателя сообщений
+     * @param jmsTemplate шаблон для работы с jms
+     * @param queueName название очереди для работы
+     */
     @Autowired
     public MessageListener(JmsTemplate jmsTemplate, @Value("${queue.name}") String queueName) {
         this.jmsTemplate = jmsTemplate;
@@ -24,6 +32,10 @@ public class MessageListener {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
+    /**
+     * Метод получения сообщения
+     * @return сообщение в виде строки
+     */
     public String receiveMessage(){
         try {
             return (String) jmsTemplate.receiveAndConvert(queueName);
@@ -33,7 +45,9 @@ public class MessageListener {
         return null;
     }
 
-
+    /**
+     * Метод начала прослушивания сообщений
+     */
     public void startReceivingMessages() {
         scheduler.scheduleAtFixedRate(() -> {
             try {
@@ -45,6 +59,9 @@ public class MessageListener {
         }, 0, 200, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Метод окончания прослушивания сообщений
+     */
     @PreDestroy
     public void stopReceivingMessages() {
         scheduler.shutdown();
